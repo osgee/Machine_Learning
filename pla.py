@@ -84,7 +84,6 @@ def predict(w, train_data, test_data):
     for i in range(test_data.shape[0]):
         if np.dot(test_data[i, :-1], w) > 0:
             r = 1
-
         else:
             r = -1
         if test_data[i, -1] != r:

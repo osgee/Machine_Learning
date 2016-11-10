@@ -53,10 +53,8 @@ def train(w, train_data):
 
 def predict(w, train_data, test_data):
     w = train(w, train_data)
-    print(w)
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    n = train_data.shape[0]
     train_scatter1 = None
     train_scatter2 = None
     for xs, ys, zs, ts in train_data:
@@ -87,7 +85,7 @@ def predict(w, train_data, test_data):
         else:
             r = -1
         if test_data[i, -1] != r:
-            test_data[i, -1] = r
+            test_data[-1] = r
             wrong_data.append(test_data[i, :])
 
     prediction_acc = 1 - len(wrong_data) / test_data.shape[0]
@@ -109,25 +107,24 @@ def predict(w, train_data, test_data):
     ax.set_ylabel('Y')
     x = np.arange(0, 5, 0.1)
     y = (-w[2] - w[0] * x) / w[1]
-    line_clf = ax.plot(x, y, label='CLF')
-    handles, labels = ax.get_legend_handles_labels()
+    line_clf, = ax.plot(x, y, label='CLF')
     if wrong_scatter1 is not None or wrong_scatter2 is not None:
-        ax.legend([train_scatter1, train_scatter2, test_scatter1, test_scatter2, wrong_scatter1, wrong_scatter2], \
+        ax.legend([train_scatter1, train_scatter2, test_scatter1, test_scatter2, wrong_scatter1, wrong_scatter2, line_clf], \
                   ['train class 1', 'train class 2', 'test class 1', 'test class 2', 'wrong prediction class 1',
-                   'wrong prediction class 2'])
+                   'wrong prediction class 2', 'CLF line'])
     elif test_scatter1 is not None or test_scatter2 is not None:
-        ax.legend([train_scatter1, train_scatter2, test_scatter1, test_scatter2], \
-                  ['train class 1', 'train class 2', 'test class 1', 'test class 2'])
+        ax.legend([train_scatter1, train_scatter2, test_scatter1, test_scatter2, line_clf], \
+                  ['train class 1', 'train class 2', 'test class 1', 'test class 2', 'CLF line'])
     else:
-        ax.legend([train_scatter1, train_scatter2], \
-                  ['train class 1', 'train class 2'])
+        ax.legend([train_scatter1, train_scatter2, line_clf], \
+                  ['train class 1', 'train class 2', 'CLF line'])
     plt.show()
 
 
-generate_data([1, -1, 1], 5, 50)
+# generate_data([1, -1, 1], 5, 50)
 # generate_data([0.5, 1, -4], 5, 50)
-# generate_data([0.5, -1, 2], 5, 50)
+generate_data([0.5, -1, 2], 5, 50)
 
 train_data, test_data = load_data(0.1)
-w = np.ones((train_data.shape[1] - 1, 1))
+w = np.array([1, 1, 1])
 predict(w, train_data, test_data)

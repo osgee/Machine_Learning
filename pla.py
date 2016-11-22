@@ -2,7 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-data_file = 'Dataset_PLA.csv'
+data_file = 'Data_PLA.csv'
 Max_Iteration = 1000
 
 
